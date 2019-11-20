@@ -24,4 +24,8 @@ public class MasterService  {
     public Optional<Master> findById(Long masterId){
         return masterRepository.findById(masterId);
     }
+
+    public List<Master> getMastersByCategory(Long categoryId) {
+        return masterRepository.findAllMastersByCategoryId(categoryId);
+    }
 }

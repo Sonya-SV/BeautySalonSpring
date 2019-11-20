@@ -3,12 +3,12 @@
         <div class="navbar navbar-default">
             <a class="navbar-brand" href="/">Beauty</a>
             <ul class="nav navbar-nav">
-                <li><a href="/userlist"><@spring.message "user.list"/></a></li>
-                <li><a href="/masterlist"><@spring.message "masters"/></a></li>
-                <li><a href="/categorylist"><@spring.message "categories"/></a></li>
+                <li><a href="/admin/userlist"><@spring.message "user.list"/></a></li>
+                <li><a href="/user/masterlist"><@spring.message "masters"/></a></li>
+                <li><a href="/user/categorylist"><@spring.message "categories"/></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/profile"><@spring.message "profile"/></a></li>
+                <li><a href="/user/profile"><@spring.message "profile"/></a></li>
                 <li><a href="/login"><span
                                 class="glyphicon glyphicon-log-in"></span><@spring.message "login"/></a></li>
                 <li><a href="/registration"><span
