@@ -24,6 +24,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
     private Long id;
 
     @Column(name = "email", nullable = false)
@@ -39,12 +40,12 @@ public class User implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
-    //    @Transient
-//    private String password2;
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @OneToMany( mappedBy = "user",  cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private Set<Comment> comments;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

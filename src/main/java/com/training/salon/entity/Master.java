@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.sql.Blob;
 import java.time.LocalTime;
 import java.util.Base64;
+import java.util.Set;
 
 
 @Getter
@@ -23,6 +24,7 @@ public class Master {
     @Column(name = "master_id")
     private Long id;
 
+    //TODO rewrite OneToOne
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -40,10 +42,11 @@ public class Master {
     @Column(name = "photo", nullable = false)
     private byte[] photo;
 
-    @Transient
-    private String base64;
+    @OneToMany( mappedBy = "master",  cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private Set<Comment> comments;
 
     @Transient
+    private String base64;
     public String getBase64() {
         return this.base64 = new String(Base64.getEncoder().encode(this.photo));
     }
