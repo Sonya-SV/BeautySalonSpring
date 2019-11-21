@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -23,5 +24,9 @@ public class ProcedureService {
 
     public List<Procedure> findAllProceduresByCategory(Long categoryId) {
         return procedureRepository.findAllProceduresByCategoryId(categoryId);
+    }
+
+    public Optional<Procedure> findProcedureById(Long procedureId) {
+        return procedureRepository.findById(procedureId);
     }
 }

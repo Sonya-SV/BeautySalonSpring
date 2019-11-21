@@ -28,4 +28,8 @@ public class MasterService  {
     public List<Master> getMastersByCategory(Long categoryId) {
         return masterRepository.findAllMastersByCategoryId(categoryId);
     }
+
+    public Optional<Master> findByUserId(Long userId) {
+        return masterRepository.findByUserId(userId);
+    }
 }
