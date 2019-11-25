@@ -1,11 +1,12 @@
 package com.training.salon.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class MailSender {
 
@@ -18,7 +19,7 @@ public class MailSender {
         this.mailSender = mailSender;
     }
 
-    public void send(String emailTo, Long masterId){
+    public void send(String emailTo, Long masterId) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
 
         mailMessage.setFrom(username);
@@ -26,7 +27,6 @@ public class MailSender {
         mailMessage.setSubject("Leave Comment");
         mailMessage.setText(" Leave comment about our master:\n" +
                 "http://localhost:8080/user/master/" + masterId);
-
         mailSender.send(mailMessage);
     }
 }
