@@ -6,21 +6,17 @@ import com.training.salon.entity.User;
 import com.training.salon.repository.UserRepository;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Slf4j
 @Service
 public class UserService implements UserDetailsService {
-    private static String WRONG_INPUT = "Wrong input!!";
-
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -30,25 +26,9 @@ public class UserService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
-
-
     @Override
     public UserDetails loadUserByUsername(@NonNull String email) throws UsernameNotFoundException {
-         return userRepository.findByEmail(email);
-    }
-
-    public void updateUserByAdmin(User user, Map<String, String> form) throws DataIntegrityViolationException {
-        //TODO rewrite for 1 key
-        Set<String> roles = Arrays.stream(Role.values()).map(Role::name)
-                .collect(Collectors.toSet());
-        form.keySet().stream()
-                .filter(roles::contains)
-                .forEach((key) -> user.setRole(Role.valueOf(key)));
-        try {
-            userRepository.save(user);
-        } catch (Exception ex) {
-            log.info("Can`t change role for user " + user.getEmail());
-        }
+        return userRepository.findByEmail(email);
     }
 
     public List<User> findAllUsers() {
@@ -61,9 +41,8 @@ public class UserService implements UserDetailsService {
         user.setPassword(passwordEncoder.encode(password));
         try {
             userRepository.save(user);
-        }catch(Exception e){
-            log.info("Can`t save user");
-            log.info("{}", user);
+        } catch (Exception e) {
+            log.info("Can`t save user " + user);
         }
     }
 
