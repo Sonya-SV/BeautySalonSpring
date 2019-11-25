@@ -5,7 +5,6 @@ import com.training.salon.entity.User;
 import com.training.salon.service.CommentService;
 import com.training.salon.service.MasterService;
 import com.training.salon.service.ProcedureService;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.Optional;
 
 @Controller
-@PreAuthorize("hasAuthority('USER')")
 @RequestMapping("/user")
 public class MasterController {
 
@@ -31,19 +29,20 @@ public class MasterController {
     }
 
     @GetMapping("/masterlist")
-    public String getMasters(Model model, @AuthenticationPrincipal User user) {
+    public String getMasters(Model model) {
         model.addAttribute("masters", masterService.findAll());
         return "/user/masterlist";
     }
 
     @GetMapping("/master/{master}")
-    public String getMaster(@PathVariable Master master, Model model) {
+    public String getMaster(@PathVariable Master master,
+                            @AuthenticationPrincipal User user,
+                            Model model) {
 
         Optional<Master> mstr = masterService.findById(master.getId());
         mstr.ifPresent(value -> model.addAttribute("master", value));
         model.addAttribute("procedures", procedureService.findAllProceduresByMasterId(master.getId()));
-        model.addAttribute("comments", commentService.findAllCommentsByMasterId(master.getId()));
-
+        if (user.isAdmin()) model.addAttribute("comments", commentService.findAllCommentsByMasterId(master.getId()));
         return "/user/master";
     }
 
