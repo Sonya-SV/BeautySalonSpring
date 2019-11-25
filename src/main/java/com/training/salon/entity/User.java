@@ -5,8 +5,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
@@ -28,13 +26,12 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(name = "email", nullable = false)
-    @NotBlank(message = "Email cannot be empty")
     private String email;
 
-    @Column(name = "first_name", nullable = true)
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "last_name", nullable = true)
+    @Column(name = "last_name")
     private String lastName;
 
     @Column(name = "password", nullable = false)
@@ -44,8 +41,16 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany( mappedBy = "user",  cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE , fetch = FetchType.EAGER)
     private Set<Comment> comments;
+
+    public boolean isAdmin() {
+        return role.equals(Role.ADMIN);
+    }
+
+    public boolean isMaster() {
+        return role.equals(Role.MASTER);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

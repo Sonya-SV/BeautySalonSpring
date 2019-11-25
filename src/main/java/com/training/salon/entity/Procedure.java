@@ -23,7 +23,7 @@ public class Procedure {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "price", nullable = false, columnDefinition="Decimal(10,2) default '0.00'")
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
 
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)

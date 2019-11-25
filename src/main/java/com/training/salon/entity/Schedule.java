@@ -1,7 +1,6 @@
 package com.training.salon.entity;
 
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -22,7 +21,7 @@ public class Schedule {
     @Column(name = "schedule_id")
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "master_id", nullable = false)
     private Master master;
 
@@ -34,7 +33,6 @@ public class Schedule {
     @JoinColumn(name = "proced_id", nullable = false)
     private Procedure procedure;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     @Column(name = "time")
     private LocalTime time;
 
