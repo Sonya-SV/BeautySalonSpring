@@ -8,10 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import static com.training.salon.controller.ITextConstant.DIFFERENT_PASSWORDS;
+import static com.training.salon.controller.ITextConstant.SAVED_SUCCESSFULLY;
 
 @Controller
-
 @PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/admin")
 public class AdminController {
@@ -36,11 +36,19 @@ public class AdminController {
     }
 
     @PostMapping("/save")
-    public String userUpdate(
-            @RequestParam Map<String, String> form,
-            @RequestParam("userId") User user) {
+    public String userUpdate(@RequestParam String firstName,
+                             @RequestParam String lastName,
+                             @RequestParam String password,
+                             @RequestParam String password2,
+                             @RequestParam("userId") User user,
+                             Model model) {
 
-        userService.updateUserByAdmin(user, form);
+        if (!password.equals(password2)) {
+            model.addAttribute("passwordErrorDiffer", DIFFERENT_PASSWORDS);
+            return "/user/profile";
+        }
+        userService.updateProfile(user, firstName, lastName, password);
+        model.addAttribute("successSave", SAVED_SUCCESSFULLY);
         return "redirect:/admin/userlist";
     }
 }

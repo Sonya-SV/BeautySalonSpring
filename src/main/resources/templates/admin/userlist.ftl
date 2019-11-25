@@ -1,3 +1,4 @@
+<#include "../parts/sec.ftl">
 <#import "../parts/common.ftl" as c>
 <#import "/spring.ftl" as spring/>
 <@c.page>
@@ -18,11 +19,11 @@
                     <#if users??>
                         <#list users as i>
                             <tr>
-                                <td>${i.email}</td>
-                                <td>${i.firstName}</td>
-                                <td>${i.lastName}</td>
-                                <td>${i.role}</td>
-                                <td><a href="/admin/edituser/${i.id}"> <@spring.message "edit.profile"/></a></td>
+                                <td>${i.email!}</td>
+                                <td>${i.firstName!}</td>
+                                <td>${i.lastName!}</td>
+                                <td>${i.role!}</td>
+                                <td><a href="/admin/edituser/${i.id!}"> <@spring.message "edit.profile"/></a></td>
                             </tr>
                         </#list>
                     </#if>
