@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.validation.Valid;
-
 import static com.training.salon.controller.ITextConstant.DIFFERENT_PASSWORDS;
 import static com.training.salon.controller.ITextConstant.SAVED_SUCCESSFULLY;
 
@@ -28,7 +26,6 @@ public class UserController {
     @GetMapping("/profile")
     public String getProfile(Model model,
                              @AuthenticationPrincipal User user) {
-
         model.addAttribute("user", user);
         return "/user/profile";
     }
@@ -48,7 +45,6 @@ public class UserController {
         }
         userService.updateProfile(oldUser, firstName, lastName, password);
         model.addAttribute("successSave", SAVED_SUCCESSFULLY);
-
         return "/user/profile";
     }
 

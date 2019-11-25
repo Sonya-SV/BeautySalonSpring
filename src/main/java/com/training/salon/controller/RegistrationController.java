@@ -23,14 +23,13 @@ public class RegistrationController {
 
     @GetMapping("/registration")
     public String registration() {
-        System.out.println("reg");
         return "registration";
     }
 
     @PostMapping("/registration")
-    public String addUser(@Valid User user, BindingResult bindingResult, Model model) {
+    public String addUser( User user, Model model) {
         if (userService.loadUserByUsername(user.getUsername()) != null) {
-            model.addAttribute("usernameError", USER_EXISTS);
+            model.addAttribute("emailError", USER_EXISTS);
             return "registration";
         }
         userService.saveNewUser(user);
