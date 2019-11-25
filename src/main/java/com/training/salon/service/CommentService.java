@@ -20,7 +20,7 @@ public class CommentService {
     }
 
     public List<Comment> findAllCommentsByMasterId(Long masterId) {
-        return commentRepository.findAllByMasterId(masterId);
+        return commentRepository.findAllByMasterIdOrderByDateTimeDesc(masterId);
     }
 
     public void createComment(String text, Master master, User user) {
