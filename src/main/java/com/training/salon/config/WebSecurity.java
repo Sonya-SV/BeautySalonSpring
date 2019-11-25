@@ -1,6 +1,7 @@
 package com.training.salon.config;
 
 import com.training.salon.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,13 +17,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
-    private final UserService userService;
-    private final PasswordEncoder passwordEncoder;
-
-    public WebSecurity(UserService userService, PasswordEncoder passwordEncoder) {
-        this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
-    }
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Bean
     public PasswordEncoder getPasswordEncoder() {
@@ -32,12 +30,17 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/registration","/login").permitAll()
-                .anyRequest().authenticated()
+                    .antMatchers("/", "/static/**").permitAll()
+                    .antMatchers("/registration", "/login").anonymous()
+                    .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/login").usernameParameter("email")//.failureUrl("/login?error").permitAll()
+                    .formLogin()
+                    .loginPage("/login")
+                    .usernameParameter("email")
+                    .defaultSuccessUrl("/", true)
+                    .failureUrl("/login?error")
                 .and()
-                .logout().permitAll();//logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login");
+                    .logout().permitAll();
     }
 
     @Override
