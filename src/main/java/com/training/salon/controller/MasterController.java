@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
@@ -37,7 +38,12 @@ public class MasterController {
     @GetMapping("/master/{master}")
     public String getMaster(@PathVariable Master master,
                             @AuthenticationPrincipal User user,
+                            @RequestParam(value = "error", required = false) String error,
+                            @RequestParam(value = "success", required = false) String success,
                             Model model) {
+
+        model.addAttribute("successSend", success);
+        model.addAttribute("error", error);
 
         Optional<Master> mstr = masterService.findById(master.getId());
         mstr.ifPresent(value -> model.addAttribute("master", value));
