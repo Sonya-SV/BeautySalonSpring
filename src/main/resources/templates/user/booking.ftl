@@ -7,16 +7,16 @@
         <div class="col-md-5">
             <img class="card-img" src="data:image/png;base64,${schedule.master.base64}" alt="..." height="400">
             <div class="form-group">
-                <h3>${schedule.master.user.firstName} ${schedule.master.user.lastName}</h3>
+                <h3>${schedule.master.user.firstName!} ${schedule.master.user.lastName!}</h3>
             </div>
         </div>
         <div class="col-md-7">
             <#if errorProcedure ??>
-                <div class="alert alert-danger"> ${errorProcedure} </div>
+                <div class="alert alert-danger"> ${errorProcedure!} </div>
             </#if>
             <#if discrepancy??>
-                <div class="alert alert-danger"> ${discrepancy} </div>
-                <a href="/user/master?masterId=${schedule.master.id}">
+                <div class="alert alert-danger"> ${discrepancy!} </div>
+                <a href="/user/master?masterId=${schedule.master.id!}">
                     Choose another procedure
                 </a>
             </#if>
@@ -36,7 +36,7 @@
                                         <label class="radio-label" style="text-decoration: line-through;">
                                             <div class="radio1">
                                                 <input class="radio-input" type="time"
-                                                       value=${time} name="timeOrder" disabled/>${time!}
+                                                       value=${time!} name="timeOrder" disabled/>${time!}
                                             </div>
                                         </label>
                                         <#assign count=1/>
@@ -46,7 +46,7 @@
                                     <label class="radio-label">
                                         <div class="radio1">
                                             <input class="radio-input" type="submit" pattern="HH:mm"
-                                                   value=${time} name="timeOrder"/>${time!}
+                                                   value=${time!} name="timeOrder"/>${time!}
                                         </div>
                                     </label>
                                 </#if>
@@ -55,7 +55,7 @@
                         </div>
                     </li>
                     </ul>
-                    <input type="hidden" value="${date}" name="dateOrder"/>
+                    <input type="hidden" value="${date!}" name="dateOrder"/>
                 </form>
                 <hr align="center" width="100%" style="border-color: lightgray"/>
             </#list>

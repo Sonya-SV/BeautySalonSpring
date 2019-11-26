@@ -13,8 +13,8 @@
                 <div class="col-md-7" style="margin-top: 20px">
                     <form action="/user/save">
                         <#if alreadyBooked ??>
-                            <div class="alert alert-danger"> ${alreadyBooked} </div>
-                            <a href="/user/booking?masterId=${schedule.master.id}&procedureId=${schedule.procedure.id}">
+                            <div class="alert alert-danger"> ${alreadyBooked!} </div>
+                            <a href="/user/booking?masterId=${schedule.master.id!}&procedureId=${schedule.procedure.id!}">
                                 Choose another date
                             </a>
                         </#if>
