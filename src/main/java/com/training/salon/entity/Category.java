@@ -28,10 +28,10 @@ public class Category {
     @Column(name = "image", nullable = false)
     private byte[] image;
 
-    @OneToMany( mappedBy = "category",  cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @OneToMany( mappedBy = "category",  cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private Set<Master> masters;
 
-    @OneToMany( mappedBy = "category",  cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @OneToMany( mappedBy = "category",  cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private Set<Procedure> procedures;
 
     @Transient

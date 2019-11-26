@@ -23,11 +23,11 @@ public class Master {
     @Column(name = "master_id")
     private Long id;
 
-    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
@@ -40,7 +40,7 @@ public class Master {
     @Column(name = "photo", nullable = false)
     private byte[] photo;
 
-    @OneToMany( mappedBy = "master",  cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @OneToMany( mappedBy = "master",  cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private Set<Comment> comments;
 
     @Transient

@@ -26,7 +26,7 @@ public class Procedure {
     @Column(name = "price", nullable = false)
     private BigDecimal price;
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
