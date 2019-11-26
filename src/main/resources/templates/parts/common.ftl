@@ -17,22 +17,11 @@
               href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
         <script type='text/javascript'
                 src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
-<#--        <link rel="stylesheet"-->
-<#--              type="text/css" href="<@spring.url "/css/style.css"/>"/>-->
-
+        <link rel="stylesheet" href="../../static/css/style.css"/>
     </head>
     <body data-spy="scroll">
-
-    <#include "sec.ftl">
     <#include "navbar.ftl">
-
-    <div class="container theme-showcase" role="main">
         <#nested >
-    </div>
-    <div>
-<#--        <#include "footer.ftl">-->
-    </div>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     </body>
 
