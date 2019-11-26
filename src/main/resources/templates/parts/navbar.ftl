@@ -23,7 +23,6 @@
                 <li><a href="/registration"><span
                                 class="glyphicon glyphicon-user"></span><@spring.message "registration"/></a></li>
                 <#else >
-<#--                    TODO check-->
                     <li><a><span class="glyphicon glyphicon-user"></span> ${usr.email!}</a></li>
                 <li><a href="/logout"><span
                                 class="glyphicon glyphicon-log-out"></span> <@spring.message "logout"/> </a>
