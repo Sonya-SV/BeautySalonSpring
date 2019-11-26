@@ -1,3 +1,4 @@
+<#--<#include "parts/sec.ftl">-->
 <#import "parts/common.ftl" as c>
 <#import "/spring.ftl" as spring/>
 <@c.page>
@@ -6,17 +7,9 @@
             <div class="login-block">
                 <img src="https://www.domzamkad.ru/images/no-avatar.png" width="200" alt="Scanfcode">
                 <h1><@spring.message "put.your.data"/></h1>
-
                 <form method="post" action="/registration">
-                    <#if errorMessage??>
-                        <div class="alert alert-danger">
-                            ${errorMessage!}
-                        </div>
-                    </#if>
                     <#if emailError??>
-                        <div class="alert alert-danger">
-                            ${emailError!}
-                        </div>
+                        <div class="alert alert-danger"> ${emailError!} </div>
                     </#if>
                     <div class="form-group">
                         <div class="input-group">

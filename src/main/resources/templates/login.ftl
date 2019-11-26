@@ -7,18 +7,12 @@
                 <div class="login-block">
                     <img src="https://www.domzamkad.ru/images/no-avatar.png" width="200" alt="Scanfcode">
                     <h1><@spring.message "put.your.data"/></h1>
-
                     <form action="/login" method="post">
-                        <#if userError ??>
-                            <div class="alert alert-danger">
-                                ${userError!}
-                            </div>
-                        </#if>
                         <#if error??>
-                            <h3 style="color: red"> Invalid</h3>
+                            <div class="alert alert-danger"> <@spring.message "invalid"/></div>
                         </#if>
                         <#if logout??>
-                            <h3 style="color: green"> User logout</h3>
+                            <div class="alert alert-info"> <@spring.message "user.logout"/></div>
                         </#if>
                         <div class="form-group">
                             <div class="input-group">
