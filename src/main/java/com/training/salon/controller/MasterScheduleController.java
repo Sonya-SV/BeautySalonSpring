@@ -21,7 +21,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.training.salon.controller.ITextConstant.DAYS_iN_SCHEDULE;
+import static com.training.salon.controller.IConstant.DAYS_iN_SCHEDULE;
 
 @Controller
 @PreAuthorize("hasAuthority('ADMIN') || hasAuthority('MASTER')")

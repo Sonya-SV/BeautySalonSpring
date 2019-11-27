@@ -8,6 +8,8 @@ import com.training.salon.exception.DiscrepancyException;
 import com.training.salon.service.MasterService;
 import com.training.salon.service.ProcedureService;
 import com.training.salon.service.ScheduleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -19,12 +21,13 @@ import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.TimeZone;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.training.salon.controller.ITextConstant.*;
+import static com.training.salon.controller.IConstant.DAYS_iN_SCHEDULE;
 
 
 @Controller
@@ -40,6 +43,8 @@ public class ScheduleController {
         this.scheduleService = scheduleService;
         this.procedureService = procedureService;
     }
+    @Autowired
+    private MessageSource messageSource;
 
     @PostConstruct
     public void init() {
@@ -63,6 +68,7 @@ public class ScheduleController {
 
     @GetMapping("/user/booking")
     public String getMasters(Model model,
+                             Locale locale,
                              @RequestParam(required = false) Long masterId,
                              @RequestParam(required = false) Long procedureId,
                              @ModelAttribute Schedule schedule,
@@ -88,7 +94,7 @@ public class ScheduleController {
         try {
             masterService.isProcedureAccordToMaster(masterId, procedureId);
         } catch (DiscrepancyException e) {
-            model.addAttribute("discrepancy", MASTER_PROCEDURE_DISCREPANCY);
+            model.addAttribute("discrepancy", messageSource.getMessage("procedure.error", null, locale));
             return "/user/booking";
         }
         procedureService.findProcedureById(procedureId).ifPresent(schedule::setProcedure);
@@ -97,6 +103,7 @@ public class ScheduleController {
 
     @GetMapping("/user/order")
     public String getMasters(Model model,
+                             Locale locale,
                              @RequestParam(required = false) String timeOrder,
                              @RequestParam(required = false) String dateOrder,
                              @RequestHeader(required = false) String referer,
@@ -111,7 +118,7 @@ public class ScheduleController {
             if (date.isBefore(LocalDate.now()) || date.isAfter(LocalDate.now().plusDays(DAYS_iN_SCHEDULE)))
                 throw new DiscrepancyException();
         } catch (DiscrepancyException e) {
-            model.addAttribute("timeError", UNAVAILABLE_TIME);
+            model.addAttribute("timeError",  messageSource.getMessage("unavailable.time", null, locale));
             return "/user/order";
         }
         schedule.setDate(LocalDate.parse(dateOrder));
@@ -122,6 +129,7 @@ public class ScheduleController {
 
     @GetMapping("/user/save")
     public String getMasters(Model model,
+                             Locale locale,
                              @RequestParam String firstName,
                              @RequestParam String lastName,
                              @ModelAttribute Schedule schedule) {
@@ -131,10 +139,10 @@ public class ScheduleController {
         try {
             scheduleService.saveToSchedule(schedule);
         } catch (BookException e) {
-            model.addAttribute("alreadyBooked", ALREADY_BOOKED);
+            model.addAttribute("alreadyBooked", messageSource.getMessage("already.booked", null, locale));
             return "/user/order";
         } catch (DataIntegrityViolationException e) {
-            model.addAttribute("errorOrder", UNABLE_TO_CREATE_RECORD);
+            model.addAttribute("errorOrder", messageSource.getMessage("unable.to.create.record", null, locale));
             return "/user/order";
         }
         return "redirect:/user/successpage";

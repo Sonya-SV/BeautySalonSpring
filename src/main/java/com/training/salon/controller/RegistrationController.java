@@ -2,19 +2,20 @@ package com.training.salon.controller;
 
 import com.training.salon.entity.User;
 import com.training.salon.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.validation.Valid;
-import java.util.Map;
-
-import static com.training.salon.controller.ITextConstant.USER_EXISTS;
+import java.util.Locale;
 
 @Controller
 public class RegistrationController {
+
+    @Autowired
+    private MessageSource messageSource;
 
     private final UserService userService;
     public RegistrationController(UserService userService) {
@@ -27,9 +28,9 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String addUser( User user, Model model) {
+    public String addUser(User user, Model model, Locale locale) {
         if (userService.loadUserByUsername(user.getUsername()) != null) {
-            model.addAttribute("emailError", USER_EXISTS);
+            model.addAttribute("emailError", messageSource.getMessage("not.unique.email", null, locale));
             return "registration";
         }
         userService.saveNewUser(user);

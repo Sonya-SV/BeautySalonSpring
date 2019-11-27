@@ -1,15 +1,15 @@
 package com.training.salon.controller;
 
-import com.training.salon.entity.Role;
 import com.training.salon.entity.User;
 import com.training.salon.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import static com.training.salon.controller.ITextConstant.DIFFERENT_PASSWORDS;
-import static com.training.salon.controller.ITextConstant.SAVED_SUCCESSFULLY;
+import java.util.Locale;
 
 @Controller
 @PreAuthorize("hasAuthority('ADMIN')")
@@ -21,6 +21,9 @@ public class AdminController {
         this.userService = userService;
     }
 
+    @Autowired
+    private MessageSource messageSource;
+
     @GetMapping("/userlist")
     public String userList(Model model) {
 
@@ -31,7 +34,6 @@ public class AdminController {
     @GetMapping("/edituser/{user}")
     public String userEditForm(@PathVariable User user, Model model) {
         model.addAttribute("user", user);
-        model.addAttribute("roles", Role.values());
         return "/admin/useredit";
     }
 
@@ -41,14 +43,15 @@ public class AdminController {
                              @RequestParam String password,
                              @RequestParam String password2,
                              @RequestParam("userId") User user,
+                             Locale locale,
                              Model model) {
 
         if (!password.equals(password2)) {
-            model.addAttribute("passwordErrorDiffer", DIFFERENT_PASSWORDS);
+            model.addAttribute("passwordErrorDiffer", messageSource.getMessage(" password.different",null, locale));
             return "/user/profile";
         }
         userService.updateProfile(user, firstName, lastName, password);
-        model.addAttribute("successSave", SAVED_SUCCESSFULLY);
+        model.addAttribute("successSave", messageSource.getMessage(" success.save",null, locale));
         return "redirect:/admin/userlist";
     }
 }
