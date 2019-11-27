@@ -11,7 +11,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -39,14 +41,17 @@ public class MasterScheduleController {
     @GetMapping("/master/schedule")
     public String getMasters(Model model,
                              @AuthenticationPrincipal User user,
+                             @RequestHeader(required = false) String referer,
                              @RequestParam(required = false) Long masterId) {
         Optional<Master> master;
+        if(Optional.ofNullable(masterId).isEmpty() && user.isAdmin())
+            return "redirect:/master/schedule?" + UriComponentsBuilder.fromHttpUrl(referer).build().getQuery();
         if (user.isAdmin()) {
             master = masterService.findById(masterId);
         } else
             master = masterService.findByUserId(user.getId());
-        if (master.isEmpty()) return "redirect:/";
 
+        if (master.isEmpty()) return "redirect:/";
         model.addAttribute("schedule", scheduleService.getScheduleForMaster(master.get().getId()));
         model.addAttribute("dates", Stream.iterate(LocalDate.now(), curr -> curr.plusDays(1))
                 .limit(ChronoUnit.DAYS.between(LocalDate.now(), LocalDate.now().plusDays(DAYS_iN_SCHEDULE)))
