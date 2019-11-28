@@ -42,7 +42,7 @@ public class UserService implements UserDetailsService {
         try {
             userRepository.save(user);
         } catch (Exception e) {
-            log.info("Can`t save user " + user);
+            log.warn("Can`t save user " + user);
         }
     }
 
@@ -53,7 +53,7 @@ public class UserService implements UserDetailsService {
             userRepository.save(user);
             log.info("User " + user.getEmail() + " was successfully registered.");
         } catch (Exception ex) {
-            log.info("User is already exists");
+            log.warn("User is already exists");
         }
     }
 

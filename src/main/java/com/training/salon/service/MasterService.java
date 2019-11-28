@@ -46,7 +46,7 @@ public class MasterService {
         masterRepository.findByProcedureIdAndMasterId(procedureId, masterId).orElseThrow(DiscrepancyException::new);
     }
 
-    public void checkTimeforMaster(LocalTime time, Long masterId) throws DiscrepancyException {
+    public void checkTimeForMaster(LocalTime time, Long masterId) throws DiscrepancyException {
         Optional<Master> masterCheck = masterRepository.findByIdAndTimeEndGreaterThanAndTimeStartLessThanEqual(masterId, time, time);
         if (masterCheck.isEmpty())
             throw new DiscrepancyException();

@@ -114,7 +114,7 @@ public class ScheduleController {
             return "redirect:/user/order?"+ UriComponentsBuilder.fromHttpUrl(referer).build().getQuery();
         LocalDate date = LocalDate.parse(dateOrder);
         try {
-            masterService.checkTimeforMaster(LocalTime.parse(timeOrder), schedule.getMaster().getId());
+            masterService.checkTimeForMaster(LocalTime.parse(timeOrder), schedule.getMaster().getId());
             if (date.isBefore(LocalDate.now()) || date.isAfter(LocalDate.now().plusDays(DAYS_iN_SCHEDULE)))
                 throw new DiscrepancyException();
         } catch (DiscrepancyException e) {
