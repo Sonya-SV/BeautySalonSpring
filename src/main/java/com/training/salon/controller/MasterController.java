@@ -5,6 +5,9 @@ import com.training.salon.entity.User;
 import com.training.salon.service.CommentService;
 import com.training.salon.service.MasterService;
 import com.training.salon.service.ProcedureService;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,8 +33,11 @@ public class MasterController {
     }
 
     @GetMapping("/masterlist")
-    public String getMasters(Model model) {
-        model.addAttribute("masters", masterService.findAll());
+    public String getMasters(Model model,
+                             @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC, size = 8) Pageable pageable) {
+
+        model.addAttribute("page", masterService.findAll(pageable));
+        model.addAttribute("url", "/user/masterlist");
         return "/user/masterlist";
     }
 

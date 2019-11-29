@@ -1,13 +1,15 @@
 <#import "../parts/common.ftl" as c>
 <#import "/spring.ftl" as spring/>
+    <#import "../parts/pager.ftl" as p/>
 <@c.page>
+
     <div class="container" style="margin-top: 60px">
         <div class="row">
             <h2 style="text-align: center">
                 <@spring.message "masters"/>
             </h2>
-            <#if masters??>
-                <#list masters as i>
+            <#if page.content??>
+                <#list page.content as i>
                     <form action="/user/master/${i.id!}" autocomplete="off" novalidate>
                         <div class="col-sm-3">
                             <div class="panel panel-default">
@@ -28,5 +30,7 @@
                 </#list>
             </#if>
         </div>
+        <@p.pager url page/>
     </div>
+
 </@c.page>
