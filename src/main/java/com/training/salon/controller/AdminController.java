@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Locale;
+import java.util.Optional;
 
 @Controller
 @PreAuthorize("hasAuthority('ADMIN')")
@@ -32,7 +33,13 @@ public class AdminController {
     }
 
     @GetMapping("/edituser/{user}")
-    public String userEditForm(@PathVariable User user, Model model) {
+    public String userEditForm(@PathVariable User user,
+                               @RequestParam(value = "error", required = false) String error,
+                               Locale locale,
+                               Model model) {
+        Optional.ofNullable(error)
+                .ifPresent(x-> model.addAttribute("passwordErrorDiffer",
+                        messageSource.getMessage("password.different",null, locale)));
         model.addAttribute("user", user);
         return "/admin/useredit";
     }
@@ -42,16 +49,10 @@ public class AdminController {
                              @RequestParam String lastName,
                              @RequestParam String password,
                              @RequestParam String password2,
-                             @RequestParam("userId") User user,
-                             Locale locale,
-                             Model model) {
+                             @RequestParam("userId") User user) {
 
-        if (!password.equals(password2)) {
-            model.addAttribute("passwordErrorDiffer", messageSource.getMessage(" password.different",null, locale));
-            return "/user/profile";
-        }
+        if (!password.equals(password2)) return "redirect:/admin/edituser/"+user.getId()+"?error";
         userService.updateProfile(user, firstName, lastName, password);
-        model.addAttribute("successSave", messageSource.getMessage(" success.save",null, locale));
         return "redirect:/admin/userlist";
     }
 }
