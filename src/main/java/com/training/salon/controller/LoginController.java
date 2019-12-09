@@ -1,6 +1,8 @@
 package com.training.salon.controller;
 
 
+import com.training.salon.entity.User;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -30,8 +32,9 @@ public class LoginController {
     @GetMapping("/login")
     public String getLogin(@RequestParam(value = "error", required = false) String error,
                            @RequestParam(value = "logout", required = false) String logout,
+                           @AuthenticationPrincipal User user,
                            Model model) {
-
+        if(Optional.ofNullable(user).isPresent()) return  "redirect:/";
         model.addAttribute("error", error);
         model.addAttribute("logout", logout);
         return "login";
