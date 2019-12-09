@@ -34,8 +34,8 @@ public class MasterService {
         return masterRepository.findById(masterId);
     }
 
-    public List<Master> getMastersByCategory(Long categoryId) {
-        return masterRepository.findAllMastersByCategoryId(categoryId);
+    public Page<Master> getMastersByCategory(Long categoryId, Pageable pageable) {
+        return masterRepository.findAllMastersByCategoryId(categoryId, pageable);
     }
 
     public Optional<Master> findByUserId(Long userId) {
