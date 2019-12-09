@@ -109,6 +109,7 @@ public class ScheduleController {
                              @RequestHeader(required = false) String referer,
                              @ModelAttribute Schedule schedule,
                              @AuthenticationPrincipal User user) {
+
         model.addAttribute("user", user);
         if(Optional.ofNullable(timeOrder).isEmpty())
             return "redirect:/user/order?"+ UriComponentsBuilder.fromHttpUrl(referer).build().getQuery();
@@ -121,7 +122,7 @@ public class ScheduleController {
             model.addAttribute("timeError",  messageSource.getMessage("unavailable.time", null, locale));
             return "/user/order";
         }
-        schedule.setDate(LocalDate.parse(dateOrder));
+        schedule.setDate(date);
         schedule.setTime(LocalTime.parse(timeOrder));
         schedule.setUser(user);
         return "/user/order";
